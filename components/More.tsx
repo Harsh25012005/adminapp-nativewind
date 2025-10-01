@@ -18,58 +18,58 @@ interface MoreProps {
 export default function More({ onTabChange }: MoreProps = {}) {
   const menuItems: MenuItem[] = [
     {
-      id: '1',
-      title: 'Reports & Analytics',
-      description: 'View detailed reports and analytics',
-      icon: '📊',
-      color: 'bg-blue-100 border-blue-300'
-    },
-    {
-      id: '2',
-      title: 'Maintenance Requests',
-      description: 'Manage property maintenance requests',
+      id: 'complaints',
+      title: 'Complaints Management',
+      description: 'View and manage tenant complaints',
       icon: '🔧',
       color: 'bg-orange-100 border-orange-300'
     },
     {
-      id: '3',
-      title: 'Notifications',
-      description: 'Configure app notifications',
-      icon: '🔔',
-      color: 'bg-purple-100 border-purple-300'
-    },
-    {
-      id: '4',
-      title: 'Backup & Sync',
-      description: 'Backup and sync your data',
-      icon: '☁️',
+      id: 'meals',
+      title: 'Meals & Menu',
+      description: 'Manage daily meals and weekly menu',
+      icon: '🍽️',
       color: 'bg-green-100 border-green-300'
     },
     {
-      id: '5',
-      title: 'User Management',
-      description: 'Manage users and permissions',
-      icon: '👥',
+      id: 'notices',
+      title: 'Notices & Announcements',
+      description: 'Create and manage notices for tenants',
+      icon: '📢',
+      color: 'bg-blue-100 border-blue-300'
+    },
+    {
+      id: 'payment',
+      title: 'Payment Management',
+      description: 'Track rent payments and dues',
+      icon: '💰',
+      color: 'bg-purple-100 border-purple-300'
+    },
+    {
+      id: 'reports',
+      title: 'Reports & Analytics',
+      description: 'View detailed PG reports and analytics',
+      icon: '📊',
       color: 'bg-indigo-100 border-indigo-300'
     },
     {
-      id: '6',
-      title: 'Property Settings',
-      description: 'Configure property details',
+      id: 'settings',
+      title: 'PG Settings',
+      description: 'Configure PG property details',
       icon: '🏢',
       color: 'bg-gray-100 border-gray-300'
     },
     {
-      id: '7',
+      id: 'documents',
       title: 'Document Manager',
-      description: 'Manage contracts and documents',
+      description: 'Manage tenant agreements and documents',
       icon: '📄',
       color: 'bg-yellow-100 border-yellow-300'
     },
     {
-      id: '8',
-      title: 'Communication',
-      description: 'Send messages to tenants',
+      id: 'communication',
+      title: 'Bulk Communication',
+      description: 'Send messages to all tenants',
       icon: '💬',
       color: 'bg-pink-100 border-pink-300'
     }
@@ -85,7 +85,7 @@ export default function More({ onTabChange }: MoreProps = {}) {
   const appInfo = {
     version: '1.0.0',
     lastUpdate: '2024-10-01',
-    developer: 'Property Management Solutions'
+    developer: 'PG Management Solutions'
   };
 
   return (
@@ -119,6 +119,7 @@ export default function More({ onTabChange }: MoreProps = {}) {
           {menuItems.map((item) => (
             <TouchableOpacity
               key={item.id}
+              onPress={() => onTabChange?.(item.id)}
               className="bg-[var(--card)] rounded-lg p-4 mb-3 border border-[var(--border)]"
             >
               <View className="flex-row items-center">

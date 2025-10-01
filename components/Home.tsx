@@ -1,9 +1,11 @@
-import React from 'react';
 import { View, ScrollView } from 'react-native';
 import Header from './Header';
-import SimpleStats from './SimpleStats';
-import SimpleChart from './SimpleChart';
-import SimpleTransactions from './SimpleTransactions';
+import RevenueChart from './RevenueChart';
+import KPICards from './KPICards';
+import PGInsightsCard from './PGInsightsCard';
+import RentDuesCard from './RentDuesCard';
+import ComplaintsCard from './ComplaintsCard';
+import MealUpdatesCard from './MealUpdatesCard';
 import BottomNavigation from './BottomNavigation';
 
 interface HomeProps {
@@ -22,14 +24,23 @@ export default function Home({ onTabChange }: HomeProps) {
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Simple Stats Cards */}
-        <SimpleStats />
+        {/* Revenue Chart */}
+        <RevenueChart />
 
-        {/* Simple Chart */}
-        <SimpleChart />
+        {/* KPI Cards */}
+        <KPICards />
 
-        {/* Simple Transactions */}
-        <SimpleTransactions />
+        {/* PG Insights */}
+        <PGInsightsCard />
+
+        {/* Rent Dues */}
+        <RentDuesCard />
+
+        {/* Complaints */}
+        <ComplaintsCard />
+
+        {/* Meal Updates */}
+        <MealUpdatesCard />
       </ScrollView>
 
       {/* Bottom Navigation */}
