@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import type { TabType } from '~/types';
 
 interface KPIData {
   title: string;
@@ -7,9 +8,14 @@ interface KPIData {
   subtitle: string;
   trend?: string;
   trendColor?: string;
+  onPress?: () => void;
 }
 
-export default function KPICards() {
+interface KPICardsProps {
+  onTabChange?: (tab: TabType) => void;
+}
+
+export default function KPICards({ onTabChange }: KPICardsProps) {
   const kpiData: KPIData[] = [
     {
       title: 'Total Beds',
@@ -19,11 +25,12 @@ export default function KPICards() {
       trendColor: 'text-green-600'
     },
     {
-      title: 'Active Tenants',
+      title: 'Tenants',
       value: '48',
       subtitle: '3 New This Month',
       trend: '+6.25%',
-      trendColor: 'text-green-600'
+      trendColor: 'text-green-600',
+      onPress: () => onTabChange?.('tenant')
     },
     {
       title: 'Rent Collection',
@@ -45,45 +52,41 @@ export default function KPICards() {
       subtitle: 'Today',
       trend: '48 × 3 meals',
       trendColor: 'text-blue-600'
-    },
-    {
-      title: 'Monthly Revenue',
-      value: '₹2.76L',
-      subtitle: 'This Month',
-      trend: '+12%',
-      trendColor: 'text-green-600'
     }
   ];
 
   return (
-    <View className="mb-8">
+    <View className="mb-6">
       <ScrollView 
         horizontal 
         showsHorizontalScrollIndicator={false}
-        className="px-4"
-        contentContainerStyle={{ paddingRight: 16 }}
+        contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
       >
-        {kpiData.map((kpi, index) => (
-          <View
-            key={index}
-            className="bg-[var(--card)] rounded-lg p-4 mr-3 min-w-[140px] border border-[var(--border)]"
-          >
-            <Text className="text-sm text-[var(--muted-foreground)] mb-2">
-              {kpi.title}
-            </Text>
-            <Text className="text-2xl font-bold text-[var(--foreground)] mb-1">
-              {kpi.value}
-            </Text>
-            <Text className="text-xs text-[var(--muted-foreground)] mb-1">
-              {kpi.subtitle}
-            </Text>
-            {kpi.trend && (
-              <Text className={`text-xs font-medium ${kpi.trendColor || 'text-[var(--muted-foreground)]'}`}>
-                {kpi.trend}
+        {kpiData.map((kpi, index) => {
+          const CardWrapper = kpi.onPress ? TouchableOpacity : View;
+          return (
+            <CardWrapper
+              key={index}
+              onPress={kpi.onPress}
+              className="bg-[var(--card)] rounded-lg p-4 mr-3 min-w-[140px] border border-[var(--border)]"
+            >
+              <Text className="text-sm text-[var(--muted-foreground)] mb-2">
+                {kpi.title}
               </Text>
-            )}
-          </View>
-        ))}
+              <Text className="text-2xl font-bold text-[var(--foreground)] mb-1">
+                {kpi.value}
+              </Text>
+              <Text className="text-xs text-[var(--muted-foreground)] mb-1">
+                {kpi.subtitle}
+              </Text>
+              {kpi.trend && (
+                <Text className={`text-xs font-medium ${kpi.trendColor || 'text-[var(--muted-foreground)]'}`}>
+                  {kpi.trend}
+                </Text>
+              )}
+            </CardWrapper>
+          );
+        })}
       </ScrollView>
     </View>
   );

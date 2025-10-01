@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import Header from './Header';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { ScreenProps } from '~/types';
 
 interface MealItem {
   name: string;
@@ -24,11 +25,7 @@ interface MealStats {
   avgRating: number;
 }
 
-interface MealsManagementProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function MealsManagement({ onTabChange }: MealsManagementProps = {}) {
+export default function MealsManagement({ onTabChange }: ScreenProps = {}) {
   const [selectedDay, setSelectedDay] = useState('today');
 
   const weeklyMenu: DayMeal[] = [

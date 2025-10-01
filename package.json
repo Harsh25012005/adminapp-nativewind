@@ -26,7 +26,6 @@
     "@babel/core": "^7.20.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/react": "~19.1.10",
-    "@types/react-native-svg": "^7.1.0",
     "eslint": "^9.25.1",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.2",

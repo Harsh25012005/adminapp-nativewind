@@ -26,18 +26,13 @@ function ChevronDownIcon() {
 
 export default function Header() {
   return (
-    <View className="bg-[var(--background)] px-4 py-6 pt-12">
-      <View className="flex-row justify-between items-start mb-4">
+    <View className="bg-[var(--background)] px-4 pt-12 pb-4">
+      <View className="flex-row justify-between items-center">
         <Text className="text-2xl font-bold text-[var(--foreground)]">Overview</Text>
-        <TouchableOpacity className="p-1">
+        <TouchableOpacity className="p-2">
           <BellIcon />
         </TouchableOpacity>
       </View>
-      
-      <TouchableOpacity className="flex-row items-center self-start">
-        <Text className="text-sm text-[var(--muted-foreground)] mr-1">Last 6 months</Text>
-        <ChevronDownIcon />
-      </TouchableOpacity>
     </View>
   );
 }

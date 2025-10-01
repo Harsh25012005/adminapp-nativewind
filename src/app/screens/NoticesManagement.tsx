@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import Header from './Header';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { ScreenProps } from '~/types';
 
 interface Notice {
   id: string;
@@ -17,11 +18,7 @@ interface Notice {
   readBy?: string[];
 }
 
-interface NoticesManagementProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function NoticesManagement({ onTabChange }: NoticesManagementProps = {}) {
+export default function NoticesManagement({ onTabChange }: ScreenProps = {}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('active');
 

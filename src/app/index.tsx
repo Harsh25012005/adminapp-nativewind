@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "~/global.css";
+import "../../global.css";
 import Home from './screens/Home';
 import Tenant from './screens/Tenant';
 import Payment from './screens/Payment';
@@ -13,26 +13,30 @@ import type { TabType } from '~/types';
 export default function App() {
   const [currentPage, setCurrentPage] = useState<TabType>('home');
 
+  const handleTabChange = (tab: TabType) => {
+    setCurrentPage(tab);
+  };
+
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'home':
-        return <Home onTabChange={setCurrentPage} />;
+        return <Home onTabChange={handleTabChange} />;
       case 'tenant':
-        return <Tenant onTabChange={setCurrentPage} />;
+        return <Tenant onTabChange={handleTabChange} />;
       case 'room':
-        return <Room onTabChange={setCurrentPage} />;
+        return <Room onTabChange={handleTabChange} />;
       case 'complaints':
-        return <ComplaintsManagement onTabChange={setCurrentPage} />;
+        return <ComplaintsManagement onTabChange={handleTabChange} />;
       case 'meals':
-        return <MealsManagement onTabChange={setCurrentPage} />;
+        return <MealsManagement onTabChange={handleTabChange} />;
       case 'notices':
-        return <NoticesManagement onTabChange={setCurrentPage} />;
+        return <NoticesManagement onTabChange={handleTabChange} />;
       case 'payment':
-        return <Payment onTabChange={setCurrentPage} />;
+        return <Payment onTabChange={handleTabChange} />;
       case 'more':
-        return <More onTabChange={setCurrentPage} />;
+        return <More onTabChange={handleTabChange} />;
       default:
-        return <Home onTabChange={setCurrentPage} />;
+        return <Home onTabChange={handleTabChange} />;
     }
   };
 

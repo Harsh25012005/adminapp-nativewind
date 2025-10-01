@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import Header from './Header';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { ScreenProps } from '~/types';
 
 interface Complaint {
   id: string;
@@ -17,11 +18,7 @@ interface Complaint {
   assignedTo?: string;
 }
 
-interface ComplaintsManagementProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function ComplaintsManagement({ onTabChange }: ComplaintsManagementProps = {}) {
+export default function ComplaintsManagement({ onTabChange }: ScreenProps = {}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 

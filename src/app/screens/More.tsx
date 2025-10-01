@@ -1,21 +1,18 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import Header from './Header';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { ScreenProps, TabType } from '~/types';
 
 interface MenuItem {
-  id: string;
+  id: TabType | string;
   title: string;
   description: string;
   icon: string;
   color: string;
 }
 
-interface MoreProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function More({ onTabChange }: MoreProps = {}) {
+export default function More({ onTabChange }: ScreenProps = {}) {
   const menuItems: MenuItem[] = [
     {
       id: 'complaints',
@@ -119,7 +116,13 @@ export default function More({ onTabChange }: MoreProps = {}) {
           {menuItems.map((item) => (
             <TouchableOpacity
               key={item.id}
-              onPress={() => onTabChange?.(item.id)}
+              onPress={() => {
+                // Only navigate if the item.id is a valid TabType
+                const validTabs: TabType[] = ['home', 'room', 'tenant', 'payment', 'complaints', 'meals', 'notices', 'more'];
+                if (validTabs.includes(item.id as TabType)) {
+                  onTabChange?.(item.id as TabType);
+                }
+              }}
               className="bg-[var(--card)] rounded-lg p-4 mb-3 border border-[var(--border)]"
             >
               <View className="flex-row items-center">

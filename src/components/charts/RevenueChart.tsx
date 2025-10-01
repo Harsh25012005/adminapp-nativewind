@@ -9,27 +9,123 @@ interface DataPoint {
   value: number;
 }
 
-const data: DataPoint[] = [
-  { month: 'May', value: 220000 },
-  { month: 'Jun', value: 245000 },
-  { month: 'Jul', value: 260000 },
-  { month: 'Aug', value: 255000 },
-  { month: 'Sep', value: 275000 },
-  { month: 'Oct', value: 290000 },
-];
+const revenueData = {
+  '1year': [
+    { month: 'Jan', value: 180000 },
+    { month: 'Feb', value: 195000 },
+    { month: 'Mar', value: 210000 },
+    { month: 'Apr', value: 205000 },
+    { month: 'May', value: 220000 },
+    { month: 'Jun', value: 245000 },
+    { month: 'Jul', value: 260000 },
+    { month: 'Aug', value: 255000 },
+    { month: 'Sep', value: 275000 },
+    { month: 'Oct', value: 290000 },
+    { month: 'Nov', value: 285000 },
+    { month: 'Dec', value: 300000 },
+  ],
+  '6months': [
+    { month: 'May', value: 220000 },
+    { month: 'Jun', value: 245000 },
+    { month: 'Jul', value: 260000 },
+    { month: 'Aug', value: 255000 },
+    { month: 'Sep', value: 275000 },
+    { month: 'Oct', value: 290000 },
+  ],
+  '3months': [
+    { month: 'Aug', value: 255000 },
+    { month: 'Sep', value: 275000 },
+    { month: 'Oct', value: 290000 },
+  ],
+  '1month': [
+    { month: 'W1', value: 65000 },
+    { month: 'W2', value: 72000 },
+    { month: 'W3', value: 78000 },
+    { month: 'W4', value: 75000 },
+  ],
+  '1week': [
+    { month: 'Mon', value: 12000 },
+    { month: 'Tue', value: 15000 },
+    { month: 'Wed', value: 18000 },
+    { month: 'Thu', value: 16000 },
+    { month: 'Fri', value: 14000 },
+    { month: 'Sat', value: 10000 },
+    { month: 'Sun', value: 8000 },
+  ]
+};
+
+const tenantData = {
+  '1year': [
+    { month: 'Jan', value: 38 },
+    { month: 'Feb', value: 40 },
+    { month: 'Mar', value: 41 },
+    { month: 'Apr', value: 40 },
+    { month: 'May', value: 42 },
+    { month: 'Jun', value: 45 },
+    { month: 'Jul', value: 46 },
+    { month: 'Aug', value: 44 },
+    { month: 'Sep', value: 47 },
+    { month: 'Oct', value: 48 },
+    { month: 'Nov', value: 48 },
+    { month: 'Dec', value: 50 },
+  ],
+  '6months': [
+    { month: 'May', value: 42 },
+    { month: 'Jun', value: 45 },
+    { month: 'Jul', value: 46 },
+    { month: 'Aug', value: 44 },
+    { month: 'Sep', value: 47 },
+    { month: 'Oct', value: 48 },
+  ],
+  '3months': [
+    { month: 'Aug', value: 44 },
+    { month: 'Sep', value: 47 },
+    { month: 'Oct', value: 48 },
+  ],
+  '1month': [
+    { month: 'W1', value: 46 },
+    { month: 'W2', value: 47 },
+    { month: 'W3', value: 48 },
+    { month: 'W4', value: 48 },
+  ],
+  '1week': [
+    { month: 'Mon', value: 48 },
+    { month: 'Tue', value: 48 },
+    { month: 'Wed', value: 47 },
+    { month: 'Thu', value: 48 },
+    { month: 'Fri', value: 48 },
+    { month: 'Sat', value: 48 },
+    { month: 'Sun', value: 48 },
+  ]
+};
 
 export default function RevenueChart() {
-  const [activeTab, setActiveTab] = useState<'revenue' | 'cost' | 'netProfit'>('revenue');
+  const [activeTab, setActiveTab] = useState<'revenue' | 'tenants'>('revenue');
   const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
+  const [timeFilter, setTimeFilter] = useState<'1year' | '6months' | '3months' | '1month' | '1week'>('6months');
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const chartWidth = screenWidth - 64;
   const chartHeight = 180;
-  const padding = { top: 20, right: 10, bottom: 30, left: 10 };
+  const padding = { top: 20, right: 5, bottom: 30, left: 50 };
   const innerWidth = chartWidth - padding.left - padding.right;
   const innerHeight = chartHeight - padding.top - padding.bottom;
 
+  // Select data based on active tab and time filter
+  const data = activeTab === 'revenue' ? revenueData[timeFilter] : tenantData[timeFilter];
   const maxValue = Math.max(...data.map(d => d.value));
   const minValue = 0;
+
+  // Get filter label
+  const getFilterLabel = () => {
+    switch(timeFilter) {
+      case '1year': return '1 Year';
+      case '6months': return '6 Months';
+      case '3months': return '3 Months';
+      case '1month': return '1 Month';
+      case '1week': return '1 Week';
+    }
+  };
 
   const xScale = (index: number) => padding.left + (index / (data.length - 1)) * innerWidth;
   const yScale = (value: number) => padding.top + innerHeight - ((value - minValue) / (maxValue - minValue)) * innerHeight;
@@ -42,48 +138,124 @@ export default function RevenueChart() {
 
   const areaPath = `${pathData} L ${xScale(data.length - 1)} ${chartHeight - padding.bottom} L ${padding.left} ${chartHeight - padding.bottom} Z`;
 
-  const yAxisLabels = ['₹0', '₹1L', '₹2L', '₹3L', '₹4L'];
+  // Y-axis labels based on active tab
+  const yAxisLabels = activeTab === 'revenue' 
+    ? ['₹0', '₹1L', '₹2L', '₹3L', '₹4L']
+    : ['0', '12', '24', '36', '48'];
 
   return (
     <View className="px-4 mb-6">
-      {/* Tabs */}
       <View className="flex-row mb-4 bg-[var(--card)] rounded-lg p-1 border border-[var(--border)]">
         <TouchableOpacity
           onPress={() => setActiveTab('revenue')}
-          className={`flex-1 py-2 rounded-md ${activeTab === 'revenue' ? 'bg-[var(--background)]' : ''}`}
+          className={`flex-1 py-3 rounded-md ${activeTab === 'revenue' ? 'bg-blue-500' : ''}`}
         >
-          <Text className={`text-center text-sm font-medium ${activeTab === 'revenue' ? 'text-[var(--foreground)]' : 'text-[var(--muted-foreground)]'}`}>
+          <Text className={`text-center text-sm font-semibold ${activeTab === 'revenue' ? 'text-white' : 'text-[var(--muted-foreground)]'}`}>
             Revenue
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setActiveTab('cost')}
-          className={`flex-1 py-2 rounded-md ${activeTab === 'cost' ? 'bg-[var(--background)]' : ''}`}
+          onPress={() => setActiveTab('tenants')}
+          className={`flex-1 py-3 rounded-md ${activeTab === 'tenants' ? 'bg-blue-500' : ''}`}
         >
-          <Text className={`text-center text-sm font-medium ${activeTab === 'cost' ? 'text-[var(--foreground)]' : 'text-[var(--muted-foreground)]'}`}>
-            Cost
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setActiveTab('netProfit')}
-          className={`flex-1 py-2 rounded-md ${activeTab === 'netProfit' ? 'bg-[var(--background)]' : ''}`}
-        >
-          <Text className={`text-center text-sm font-medium ${activeTab === 'netProfit' ? 'text-[var(--foreground)]' : 'text-[var(--muted-foreground)]'}`}>
-            Net Profit
+          <Text className={`text-center text-sm font-semibold ${activeTab === 'tenants' ? 'text-white' : 'text-[var(--muted-foreground)]'}`}>
+            Tenants
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Total Revenue */}
-      <View className="mb-4">
-        <Text className="text-sm text-[var(--muted-foreground)] mb-1">Total PG Revenue</Text>
-        <View className="flex-row items-center">
-          <Text className="text-3xl font-bold text-[var(--foreground)]">₹15.45L</Text>
-          <View className="ml-2 bg-green-100 px-2 py-1 rounded">
-            <Text className="text-xs font-medium text-green-700">↑ +8.5%</Text>
+      {/* Header Info */}
+      <View className="mb-4 flex-row items-center justify-between">
+        {/* Left Side - Heading and Number */}
+        <View className="flex-1">
+          <Text className="text-m text-[var(--muted-foreground)] mb-2">
+            {activeTab === 'revenue' ? 'Total PG Revenue' : 'Tenant Occupancy'}
+          </Text>
+          <View className="flex-row items-center">
+            <Text className="text-3xl font-bold text-[var(--foreground)]">
+              {activeTab === 'revenue' ? '₹15.45L' : '48'}
+            </Text>
+            <View className={`ml-2 px-2 py-1 rounded ${activeTab === 'revenue' ? 'bg-green-100' : 'bg-blue-100'}`}>
+              <Text className={`text-xs font-medium ${activeTab === 'revenue' ? 'text-green-700' : 'text-blue-700'}`}>
+                {activeTab === 'revenue' ? '↑ +8.5%' : '↑ +6.25%'}
+              </Text>
+            </View>
           </View>
         </View>
-        <Text className="text-sm text-[var(--muted-foreground)] mt-1">Last 6 months collection</Text>
+
+        {/* Right Side - Time Filter Dropdown */}
+        <View className="relative ml-2">
+          <TouchableOpacity 
+            onPress={() => setShowDropdown(!showDropdown)}
+            className="bg-[var(--card)] border border-[var(--border)] rounded-lg px-3 py-2.5 flex-row items-center justify-center"
+          >
+            <Text className="text-sm font-medium text-[var(--foreground)] mr-1">
+              {getFilterLabel()}
+            </Text>
+            <Text className="text-xs text-[var(--muted-foreground)]">▼</Text>
+          </TouchableOpacity>
+
+          {/* Dropdown Menu */}
+          {showDropdown && (
+            <View className="absolute top-12 right-0 bg-[var(--card)] border border-[var(--border)] rounded-lg shadow-lg z-50 min-w-[120px]">
+              <TouchableOpacity 
+                onPress={() => {
+                  setTimeFilter('1week');
+                  setShowDropdown(false);
+                }}
+                className="px-4 py-3 border-b border-[var(--border)]"
+              >
+                <Text className={`text-sm ${timeFilter === '1week' ? 'font-bold text-blue-600' : 'text-[var(--foreground)]'}`}>
+                  1 Week
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                onPress={() => {
+                  setTimeFilter('1month');
+                  setShowDropdown(false);
+                }}
+                className="px-4 py-3 border-b border-[var(--border)]"
+              >
+                <Text className={`text-sm ${timeFilter === '1month' ? 'font-bold text-blue-600' : 'text-[var(--foreground)]'}`}>
+                  1 Month
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                onPress={() => {
+                  setTimeFilter('3months');
+                  setShowDropdown(false);
+                }}
+                className="px-4 py-3 border-b border-[var(--border)]"
+              >
+                <Text className={`text-sm ${timeFilter === '3months' ? 'font-bold text-blue-600' : 'text-[var(--foreground)]'}`}>
+                  3 Months
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                onPress={() => {
+                  setTimeFilter('6months');
+                  setShowDropdown(false);
+                }}
+                className="px-4 py-3 border-b border-[var(--border)]"
+              >
+                <Text className={`text-sm ${timeFilter === '6months' ? 'font-bold text-blue-600' : 'text-[var(--foreground)]'}`}>
+                  6 Months
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                onPress={() => {
+                  setTimeFilter('1year');
+                  setShowDropdown(false);
+                }}
+                className="px-4 py-3"
+              >
+                <Text className={`text-sm ${timeFilter === '1year' ? 'font-bold text-blue-600' : 'text-[var(--foreground)]'}`}>
+                  1 Year
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </View>
 
       {/* Chart */}
@@ -102,9 +274,9 @@ export default function RevenueChart() {
             return (
               <SvgText
                 key={i}
-                x={5}
-                y={y}
-                fontSize="10"
+                x={10}
+                y={y + 4}
+                fontSize="11"
                 fill="#9CA3AF"
                 textAnchor="start"
               >
@@ -189,7 +361,12 @@ export default function RevenueChart() {
         {/* Tooltip value */}
         {hoveredPoint !== null && (
           <View className="absolute bg-[#1E293B] px-3 py-2 rounded-lg" style={{ top: 40, left: xScale(hoveredPoint) - 40 }}>
-            <Text className="text-white text-xs font-medium">₹{(data[hoveredPoint].value / 100000).toFixed(1)}L</Text>
+            <Text className="text-white text-xs font-medium">
+              {activeTab === 'revenue' 
+                ? `₹${(data[hoveredPoint].value / 100000).toFixed(1)}L`
+                : `${data[hoveredPoint].value} Tenants`
+              }
+            </Text>
             <Text className="text-white text-xs">{data[hoveredPoint].month}</Text>
           </View>
         )}

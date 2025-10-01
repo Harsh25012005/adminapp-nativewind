@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
+import type { TabType } from '~/types';
 
 interface BottomNavigationProps {
-  activeTab?: string;
-  onTabChange?: (tab: string) => void;
+  activeTab?: TabType;
+  onTabChange?: (tab: TabType) => void;
 }
 
 function HomeIcon({ active }: { active: boolean }) {
@@ -89,7 +90,7 @@ function MoreIcon({ active }: { active: boolean }) {
 export default function BottomNavigation({ activeTab = 'home', onTabChange }: BottomNavigationProps) {
   const [currentTab, setCurrentTab] = useState(activeTab);
 
-  const navItems = [
+  const navItems: Array<{ id: TabType; label: string; icon: React.ComponentType<{ active: boolean }> }> = [
     { id: 'home', label: 'Dashboard', icon: HomeIcon },
     { id: 'room', label: 'Rooms', icon: RoomsIcon },
     { id: 'tenant', label: 'Tenants', icon: TenantsIcon },

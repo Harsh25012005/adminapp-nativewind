@@ -67,7 +67,7 @@ export default function MealUpdatesCard() {
   return (
     <View className="mb-6">
       <View className="flex-row justify-between items-center mb-3 px-4">
-        <Text className="text-lg font-semibold text-[var(--foreground)]">
+        <Text className="text-xl font-semibold text-[var(--foreground)]">
           Today's Meals
         </Text>
         <TouchableOpacity>
@@ -78,8 +78,7 @@ export default function MealUpdatesCard() {
       <ScrollView 
         horizontal 
         showsHorizontalScrollIndicator={false}
-        className="px-4"
-        contentContainerStyle={{ paddingRight: 16 }}
+        contentContainerStyle={{ paddingLeft: 16, paddingRight: 16 }}
       >
         {todaysMeals.map((meal) => {
           const isOptedIn = userOptIns[meal.id];
