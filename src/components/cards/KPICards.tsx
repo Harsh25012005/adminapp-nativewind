@@ -68,7 +68,7 @@ export default function KPICards({ onTabChange }: KPICardsProps) {
             <CardWrapper
               key={index}
               onPress={kpi.onPress}
-              className="bg-[var(--card)] rounded-lg p-4 mr-3 min-w-[140px] border border-[var(--border)]"
+              className="bg-[var(--card)] rounded-lg p-4 mr-3 min-w-[180px] border border-[var(--border)]"
             >
               <Text className="text-sm text-[var(--muted-foreground)] mb-2">
                 {kpi.title}

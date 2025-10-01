@@ -18,11 +18,11 @@ export default function Home({ onTabChange }: ScreenProps) {
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* KPI Cards */}
-        <KPICards onTabChange={onTabChange} />
         {/* Revenue Chart */}
         <RevenueChart />
 
+        {/* KPI Cards */}
+        <KPICards onTabChange={onTabChange} />
 
         {/* PG Insights */}
         <PGInsightsCard />
