@@ -1,30 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import Header from './Header';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { Tenant, ScreenProps } from '~/types';
 
-interface Tenant {
-  id: string;
-  name: string;
-  room: string;
-  bedNumber: string;
-  phone: string;
-  email: string;
-  rentAmount: number;
-  securityDeposit: number;
-  status: 'active' | 'inactive' | 'notice-period';
-  joinDate: string;
-  emergencyContact: string;
-  occupation: string;
-  hometown: string;
-  lastRentPaid: string;
-}
-
-interface TenantProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function Tenant({ onTabChange }: TenantProps = {}) {
+export default function Tenant({ onTabChange }: ScreenProps = {}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 

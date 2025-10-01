@@ -1,24 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import Header from './Header';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { Payment, ScreenProps } from '~/types';
 
-interface Payment {
-  id: string;
-  tenantName: string;
-  room: string;
-  amount: number;
-  dueDate: string;
-  paidDate?: string;
-  status: 'paid' | 'pending' | 'overdue';
-  paymentMethod?: string;
-}
-
-interface PaymentProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function Payment({ onTabChange }: PaymentProps = {}) {
+export default function Payment({ onTabChange }: ScreenProps = {}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 

@@ -1,18 +1,15 @@
 import { View, ScrollView } from 'react-native';
-import Header from './Header';
-import RevenueChart from './RevenueChart';
-import KPICards from './KPICards';
-import PGInsightsCard from './PGInsightsCard';
-import RentDuesCard from './RentDuesCard';
-import ComplaintsCard from './ComplaintsCard';
-import MealUpdatesCard from './MealUpdatesCard';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import RevenueChart from '~/components/charts/RevenueChart';
+import KPICards from '~/components/cards/KPICards';
+import PGInsightsCard from '~/components/cards/PGInsightsCard';
+import RentDuesCard from '~/components/cards/RentDuesCard';
+import ComplaintsCard from '~/components/cards/ComplaintsCard';
+import MealUpdatesCard from '~/components/cards/MealUpdatesCard';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { ScreenProps } from '~/types';
 
-interface HomeProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function Home({ onTabChange }: HomeProps) {
+export default function Home({ onTabChange }: ScreenProps) {
   return (
     <View className="flex-1 bg-[var(--background)]">
       {/* Header */}

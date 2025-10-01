@@ -1,33 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import Header from './Header';
-import BottomNavigation from './BottomNavigation';
+import Header from '~/components/layout/Header';
+import BottomNavigation from '~/components/layout/BottomNavigation';
+import type { Room, Bed, ScreenProps } from '~/types';
 
-interface Bed {
-  bedNumber: string;
-  tenant?: string;
-  status: 'occupied' | 'vacant';
-  rentAmount: number;
-}
-
-interface Room {
-  id: string;
-  number: string;
-  floor: string;
-  type: string;
-  size: number; // in sq ft
-  totalBeds: number;
-  beds: Bed[];
-  amenities: string[];
-  lastUpdated: string;
-  status: 'fully-occupied' | 'partially-occupied' | 'vacant' | 'maintenance';
-}
-
-interface RoomProps {
-  onTabChange?: (tab: string) => void;
-}
-
-export default function Room({ onTabChange }: RoomProps = {}) {
+export default function Room({ onTabChange }: ScreenProps = {}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
 
